@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recomendador de Supresor de Voltaje</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            text-align: center;
+        }
+
+        #contenedor-principal {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #F28907;
+            margin-bottom: 30px;
+        }
+
+        form {
+            width: 100%;
+        }
+
+        label,
+        select {
+            margin-bottom: 20px;
+            border-radius: 20px;
+            padding: 10px 15px; /* Ajuste de padding */
+            border: 1px solid #aaa;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #F28907;
+        }
+
+        .checkboxes {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 20px;
+            margin-bottom: 25px;
+            width: 100%;
+        }
+
+        .checkboxes div {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .checkboxes input[type="checkbox"] {
+            margin-right: 10px; /* Espacio entre el checkbox y el texto */
+        }
+
+        .checkboxes label {
+            margin: 5px; /* Elimina el margen predeterminado del texto */
+        }
+
+        button {
+            margin-top: 30px;
+            padding: 12px 24px;
+            background-color: #F28907;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #e28313;
+        }
+
+        #recomendacion,
+        #supresor-img,
+        #descripcion {
+            margin-top: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            
+        }
+        #recomendacion {
+    font-weight: bold;
+}
+
+        
+    </style>
+</head>
+<body>
+  <div id="contenedor-principal">
+    <h1>Recomendador de Supresor de Voltaje</h1>
+    <form id="formulario">
+        <div id="preguntas">
+            <label for="equipo">Seleccione el equipo que desea proteger:</label>
+            <select id="equipo">
+                <option value="residencial">Residencial / Hogar</option>
+                <option value="industrial">Industrial</option>
+                <option value="Comercial">Comercial</option>
+            </select>
+
+            <label for="configuracion">Seleccione la configuración requerida:</label>
+            <select id="configuracion">
+                <option value="MONOFÁSICO">Monofasico</option>
+                <option value="TRIFÁSICO">Trifasico Fase elevada</option>
+                <option value="DELTA">Trifasico Delta</option>
+                <option value="ESTRELLA">Trifasico Estrella</option>
+            </select>
+
+            <label for="amperage">Clasificación del Servicio de Amperaje:</label>
+            <select id="amperage" name="amperage">
+                <option value="20-125">20-125 Amp</option>
+                <option value="125-225">125-225 Amp</option>
+                <option value="225-400">225-400 Amp</option>
+                <option value="400-800">400-800 Amp</option>
+                <option value="800-1200">800-1200 Amp</option>
+                <option value="1200-2000">1200-2000 Amp</option>
+                <option value="3000-4000">3000-4000 Amp</option>
+            </select>
+
+            <label for="zona">Localizacion:</label>
+            <select id="zona">
+                <option value="Interior">Interiores</option>
+                <option value="Exteriores">Exteriores</option>
+            </select>
+
+            <label for="tipo">Tipo Supresor:</label>
+            <select id="tipo">
+                <option value="tipo1">Tipo 1</option>
+                <option value="tipo2">Tipo 2</option>
+            </select>
+
+            <label for="encapsulado">Tipo de Montaje:</label>
+            <select id="encapsulado">
+                <option value="din-rail">Din Rail</option>
+                <option value="encapsulado">Encapsulado</option>
+            </select>
+
+            <label for="voltaje">Voltaje/Tension Requerida</label>
+            <select id="voltaje">
+                <option value="120V(Monofasico)">120V (Monofasico)</option>
+                <option value="120/240V(Monofasico)">120/240V (Monofasico)</option>
+                <option value="230V(Monofasico)">230V (Monofasico)</option>
+                <option value="120/208V(Trifasico Estrella)">120/208V (Trifasico Estrella)</option>
+                <option value="277/480V(Trifasico Estrella)">277/480V (Trifasico Estrella)</option>
+                <option value="347/480V(Trifasico Estrella)">347/480V (Trifasico Estrella)</option>
+                <option value="240/415V(Trifasico Estrella)">240/415V (Trifasico Estrella)</option>
+                <option value="240V (Trifasico Delta)">240V (Trifasico Delta)</option>
+                <option value="480V (Trifasico Delta)">480V (Trifasico Delta)</option>
+                <option value="600V (Trifasico Delta)">600V (Trifasico Delta)</option>
+                <option value="120/120/240V (Trifasico fase elevada)">120/120/240V (Trifasico fase elevada)</option>
+               
+                
+            </select>
+        </div>
+
+        <div id="checkboxes" class="checkboxes">
+            <label>Características requeridas:</label>
+            <div>
+                <input type="checkbox" id="audibleAlarm" name="features" value="Alarma Sonora">
+                <label for="audibleAlarm">Alarma Sonora</label>
+            </div>
+            <div>
+                <input type="checkbox" id="indicatorDegradation" name="features" value="Indicador de degradación">
+                <label for="indicatorDegradation">Indicador de degradación</label>
+            </div>
+            <div>
+                <input type="checkbox" id="dryContact" name="features" value="Contacto Seco">
+                <label for="dryContact">Contacto Seco</label>
+            </div>
+            <div>
+                <input type="checkbox" id="eventCounter" name="features" value="Contador de Eventos">
+                <label for="eventCounter">Contador de Eventos</label>
+            </div>
+            <div>
+                <input type="checkbox" id="noiseFilter" name="features" value="Filtro de ruido">
+                <label for="noiseFilter">Filtro de ruido</label>
+            </div>
+            <div>
+                <input type="checkbox" id="sinewaveTracking" name="features" value="Seguimiento de onda senoidal">
+                <label for="sinewaveTracking">Seguimiento de onda senoidal</label>
+            </div>
+            <div>
+                <input type="checkbox" id="disconnectSwitch" name="features" value="Seccionador / Desconectador">
+                <label for="disconnectSwitch">Seccionador / Desconectador</label>
+            </div>
+        </div>
+
+        <button type="button" onclick="mostrarRecomendacion()">Obtener Recomendación</button>
+    </form>
+
+    <div id="recomendacion"></div>
+    <img id="supresor-img" src="" alt="Supresor de Voltaje" style="display: none;">
+    <div id="descripcion"></div>
+  </div>
+</body>
+
+
+
+    
+
+
+    <script>
+        function mostrarRecomendacion() {
+            const equipo = document.getElementById('equipo').value;
+            const configuracion = document.getElementById('configuracion').value;
+            const amperage = document.getElementById('amperage').value;
+            const zona = document.getElementById('zona').value;
+            const tipo = document.getElementById('tipo').value;
+            const encapsulado = document.getElementById('encapsulado').value;
+            const voltaje = document.getElementById('voltaje').value;
+            const features = Array.from(document.querySelectorAll('input[name="features"]:checked')).map(checkbox => checkbox.value);
+
+            let recomendacion = "Basado en sus selecciones, se recomienda el supresor de voltaje: ";
+            let descripcion = "";
+            let imagenSrc = "";
+
+            
+
+            // Lógica de selección del supresor de voltaje
+            if ((equipo === 'Comercial' || equipo === 'industrial') &&
+    (configuracion === 'MONOFÁSICO' || configuracion === 'TRIFÁSICO' || configuracion === 'DELTA' || configuracion === 'ESTRELLA') &&
+    amperage === '20-125' &&
+    (zona === 'Interior' ) &&
+    (tipo === 'tipo2' || tipo === 'tipo1') &&
+    encapsulado === 'din-rail' &&
+    ((voltaje === '120V(Monofasico)' || voltaje === '120/240V(Monofasico)' || voltaje === '230V(Monofasico)' || voltaje === '120/208V(Trifasico Estrella)' || voltaje === '277/480V(Trifasico Estrella)' || voltaje === '347/480V(Trifasico Estrella)' || voltaje === '240/415V(Trifasico Estrella)' || voltaje === '240V (Trifasico Delta)' || voltaje === '480V (Trifasico Delta)' || voltaje === '600V (Trifasico Delta)' || voltaje === '120/120/240V (Trifasico fase elevada)')) &&
+    features.includes('Contacto Seco'))
+{
+    recomendacion += "Modelo DS70 con Alarma Sonora";
+    descripcion = `
+        	
+-Tipo 1
+-Imax: 75kA
+-NEMA 2 (IP20
+-Contacto remoto
+-Indicador visual
+-UL1449 5ed edición
+-Cartucho reemplazable
+-Corriente nominal (In): 20Ka
+-Material Termoplásticos UL94-V0
+-Corriente de corto circuito (ICC) :200kA
+-Modos de Protección común: L-L, L-N,L-G, N-G Voltaje nominal DC: 48Vdc
+
+
+
+
+
+
+
+
+       
+       
+    `;    imagenSrc = "https://citel.us/serverFile/getMainPicture/2398288";
+}
+
+
+else if (
+    (equipo === 'Comercial' || equipo === 'industrial' || equipo === 'residencial') &&
+    (configuracion === 'MONOFÁSICO' || configuracion === 'TRIFÁSICO' || configuracion === 'DELTA' || configuracion === 'ESTRELLA') &&
+    amperage === '20-125' &&
+    (zona === 'Interior' || zona === 'Exteriores') &&
+    (tipo === 'tipo2' || tipo === 'tipo1') &&
+    encapsulado === 'encapsulado' &&
+    (
+        (voltaje === '120V(Monofasico)' || voltaje === '120/240V(Monofasico)' || voltaje === '230V(Monofasico)' || voltaje === '120/208V(Trifasico Estrella)' || voltaje === '277/480V(Trifasico Estrella)' || voltaje === '347/480V(Trifasico Estrella)' || voltaje === '240/415V(Trifasico Estrella)' || voltaje === '240V (Trifasico Delta)' || voltaje === '480V (Trifasico Delta)' || voltaje === '600V (Trifasico Delta)' || voltaje === '120/120/240V (Trifasico fase elevada)')
+    ) ||
+    (features.includes('Filtro de ruido') || features.includes('Alarma Sonora'))
+) {
+    recomendacion += "Modelo M50 ";
+    descripcion = `
+        - Alarma sonora
+        - UL1449 5ed edición
+        - Imax: 50kA por fase
+        - Monofásicos y trifásicos
+        - Indicador de fallo por fase
+        - Opcional: filtro de ruido (UL1283)
+        - Carcasa: Robusta en aleación de aluminio
+        - Corriente nominal de descarga (In): 20kA
+        - Corriente de corto circuito (SCCR): 150kA
+        - IP: 66 Nema 6 (sumergible hasta 1 metro en agua)
+        - Tipo 1 (capaz de drenar la sobretensión generada por un rayo)
+        
+
+
+       
+       
+    `;
+    imagenSrc = "https://citel.us/serverFile/getMainPicture/2611489";
+}
+
+else if (
+    (equipo === 'Comercial' || equipo === 'industrial' || equipo === 'residencial') &&
+    (configuracion === 'MONOFÁSICO' ) &&
+    amperage === '20-125' &&
+    ( zona === 'Exteriores') &&
+    ( tipo === 'tipo1') &&
+    encapsulado === 'encapsulado' &&
+    (
+        ( voltaje === '120/240V(Monofasico)')
+    )
+) {
+    recomendacion += "Modelo M25 ";
+    descripcion = `
+        - Imax: 25kA
+        - Fases: Monofásicas
+        - Indicador de fallo por fase
+        - Carcasa: Robusta en aleación de aluminio
+        - Corriente nominal de descarga (In): 20kA
+        - Corriente de corto circuito (SCCR): 150kA
+        - Cumplimiento de Normas: UL1449 5ed edición
+        - IP: 66 Nema 6 (sumergible hasta 1 metro en agua)
+        - Tipo: 1 y 2 (capaz de drenar la sobretensión generada por un rayo)
+        
+        
+    `;
+    imagenSrc = "https://img1.wsimg.com/isteam/ip/34cf6488-92f9-4780-a091-6683f4d319a0/blob-cd9071f.png/:/cr=t:3.45%25,l:0%25,w:100%25,h:74.65%25/rs=w:360,h:271,cg:true ";
+}
+
+else if (
+    (equipo === 'Comercial' || equipo === 'industrial') &&
+    (configuracion === 'MONOFÁSICO' || configuracion === 'TRIFÁSICO' || configuracion === 'DELTA' || configuracion === 'ESTRELLA') &&
+    amperage === '225-400' &&
+    (zona === 'Interior' || zona === 'Exteriores') &&
+    (tipo === 'tipo2' || tipo === 'tipo1') &&
+    encapsulado === 'encapsulado' &&
+    (
+        (voltaje === '120V(Monofasico)' || voltaje === '120/240V(Monofasico)' || voltaje === '230V(Monofasico)' || voltaje === '120/208V(Trifasico Estrella)' || voltaje === '277/480V(Trifasico Estrella)' || voltaje === '347/480V(Trifasico Estrella)' || voltaje === '240/415V(Trifasico Estrella)' || voltaje === '240V (Trifasico Delta)' || voltaje === '480V (Trifasico Delta)' || voltaje === '600V (Trifasico Delta)' || voltaje === '120/120/240V (Trifasico fase elevada)')
+    ) ||
+    (features.includes('Contacto Seco') || features.includes('Filtro de ruido'))
+) {
+    recomendacion += " Modelo Mp100 "
+
+    descripcion = `
+        -Imax: 132kA
+        -IP 66 Nema 4X
+        -UL1449 5ed edición
+        -Opcional. Contacto seco
+        -Monofásicos y trifásicos
+        -Carcasa robusta en plástico
+        -Indicador de fallo por fase
+        -Opcional: filtro de ruido (UL1283)
+        -Tipo 1 y 2 (capaz de soportar la
+        - sobretensión generada por un rayo)
+        -Corriente nominal de descarga (In):20kA
+        -Corriente de corto circuito (SCCR):150kA
+        
+        
+        
+        
+       
+    `;
+    imagenSrc = "https://citel.us/serverFile/getMainPicture/2611492";
+}
+
+
+else if (
+    (equipo === 'Comercial' || equipo === 'industrial') &&
+    (configuracion === 'MONOFÁSICO' || configuracion === 'TRIFÁSICO' || configuracion === 'DELTA' || configuracion === 'ESTRELLA') &&
+    amperage === '400-800' &&
+    (zona === 'Interior' || zona === 'Exteriores') &&
+    (tipo === 'tipo2' || tipo === 'tipo1') &&
+    encapsulado === 'encapsulado' &&
+    (
+        (voltaje === '120V(Monofasico)' || voltaje === '120/240V(Monofasico)' || voltaje === '230V(Monofasico)' || voltaje === '120/208V(Trifasico Estrella)' || voltaje === '277/480V(Trifasico Estrella)' || voltaje === '347/480V(Trifasico Estrella)' || voltaje === '240/415V(Trifasico Estrella)' || voltaje === '240V (Trifasico Delta)' || voltaje === '480V (Trifasico Delta)' || voltaje === '600V (Trifasico Delta)' || voltaje === '120/120/240V (Trifasico fase elevada)')
+    ) ||
+    (features.includes('Contacto Seco') || features.includes('Filtro de ruido'))
+) {
+    recomendacion += "Modelo MP200 ";
+
+descripcion = `
+    -Imax: 220kA
+    -IP 66 Nema 4X
+    -Contacto seco
+    -Alarma sonora
+    -UL1449 5ed edición
+    -Monofásicos y trifásicos
+    -Carcasa robusta en plástico
+    -Indicador de fallo por fase
+    -Opcional: filtro de ruido (UL1283)
+    -Tipo 1 y 2 (capaz de soportar la sobretensión generada por un rayo)
+    -Corriente nominal de descarga (In):20kA
+    -Corriente de corto circuito (SCCR):150kA
+      
+   
+`;
+    imagenSrc = "https://citel.us/serverFile/getMainPicture/2611492";
+}
+
+
+else if (
+    (equipo === 'Comercial' || equipo === 'industrial') &&
+    (configuracion === 'MONOFÁSICO' || configuracion === 'TRIFÁSICO' || configuracion === 'DELTA' || configuracion === 'ESTRELLA') &&
+    amperage === '400-800' &&
+    (zona === 'Interior' || zona === 'Exteriores') &&
+    (tipo === 'tipo2' || tipo === 'tipo1') &&
+    encapsulado === 'encapsulado' &&
+    (
+        (voltaje === '120V(Monofasico)' || voltaje === '120/240V(Monofasico)' || voltaje === '230V(Monofasico)' || voltaje === '120/208V(Trifasico Estrella)' || voltaje === '277/480V(Trifasico Estrella)' || voltaje === '347/480V(Trifasico Estrella)' || voltaje === '240/415V(Trifasico Estrella)' || voltaje === '240V (Trifasico Delta)' || voltaje === '480V (Trifasico Delta)' || voltaje === '600V (Trifasico Delta)' || voltaje === '120/120/240V (Trifasico fase elevada)')
+    ) ||
+    (
+        features.includes('Indicador de degradación') || features.includes('Contacto Seco') || features.includes('Contador de Eventos') || features.includes('Filtro de ruido')
+    )
+) {
+    recomendacion += "Modelo ms200";
+    descripcion = `
+-IP 66 Nema 4X
+-UL1449 5ed edición
+-Imax: 132Ka- 220kA
+-Carcasa robusta en metal
+-Monofásicos y trifásicos
+-Indicador de fallo por fase
+-Opcional: contador de eventos
+-Opcional: filtro de ruido (UL1283)
+-Corriente nominal de descarga (In):20kA
+-Corriente de corto circuito (SCCR):200kA
+-Tipo 1 y 2 (capaz de soportar la sobretensión generada por un rayo)
+
+       
+    `;    
+    
+    imagenSrc = "https://citel.us/serverFile/getMainPicture/2303702";
+}
+
+
+else if (
+    (equipo === 'Comercial' || equipo === 'industrial') &&
+    (configuracion === 'MONOFÁSICO' || configuracion === 'TRIFÁSICO' || configuracion === 'DELTA' || configuracion === 'ESTRELLA') &&
+    amperage === '800-1200' &&
+    (zona === 'Interior' || zona === 'Exteriores') &&
+    (tipo === 'tipo2' || tipo === 'tipo1') &&
+    encapsulado === 'encapsulado' &&
+    (
+        voltaje === '120V(Monofasico)' || voltaje === '120/240V(Monofasico)' || voltaje === '230V(Monofasico)' || voltaje === '120/208V(Trifasico Estrella)' || voltaje === '277/480V(Trifasico Estrella)' || voltaje === '347/480V(Trifasico Estrella)' || voltaje === '240/415V(Trifasico Estrella)' || voltaje === '240V (Trifasico Delta)' || voltaje === '480V (Trifasico Delta)' || voltaje === '600V (Trifasico Delta)' || voltaje === '120/120/240V (Trifasico fase elevada)'
+    ) ||
+    (
+        features.includes('Indicador de degradación') || features.includes('Contacto Seco') || features.includes('Contador de Eventos') || features.includes('Filtro de ruido') || features.includes('Alarma Sonora') || features.includes('Seguimiento de onda senoidal') || features.includes('Seccionador / Desconectador')
+    )
+) {
+    recomendacion += "Modelo MDS300 ";
+    descripcion = `
+        	
+-Tipo 1-2.
+-Filtro de ruido.
+-Alarma sonora.
+-Botón de testeo
+-Full diagnóstico:  
+-Imax Total: 300Ka
+-Seguimiento de onda
+-Fusibles internos
+-UL1449 5ed edición
+-Imax por fase: 150Ka
+-Silenciador de alarma sonora
+-Luces indicadoras LED por fase
+-Módulos intercambiables por fase
+-Indicador de degradación (indica fase de vida del supresor)
+         
+    `;   
+    
+    imagenSrc = "https://citel.us/serverFile/getMainPicture/2632100";
+}
+
+            
+else if (
+    (equipo === 'Comercial' || equipo === 'industrial') &&
+    (configuracion === 'MONOFÁSICO' || configuracion === 'TRIFÁSICO' || configuracion === 'DELTA' || configuracion === 'ESTRELLA') &&
+    amperage === '1200-2000' &&
+    (zona === 'Interior' || zona === 'Exteriores') &&
+    (tipo === 'tipo2' || tipo === 'tipo1') &&
+    encapsulado === 'encapsulado' &&
+    (
+        voltaje === '120V(Monofasico)' || voltaje === '120/240V(Monofasico)' || voltaje === '230V(Monofasico)' || voltaje === '120/208V(Trifasico Estrella)' || voltaje === '277/480V(Trifasico Estrella)' || voltaje === '347/480V(Trifasico Estrella)' || voltaje === '240/415V(Trifasico Estrella)' || voltaje === '240V (Trifasico Delta)' || voltaje === '480V (Trifasico Delta)' || voltaje === '600V (Trifasico Delta)' || voltaje === '120/120/240V (Trifasico fase elevada)'
+    ) ||
+    (
+        features.includes('Indicador de degradación') || features.includes('Contacto Seco') || features.includes('Contador de Eventos') || features.includes('Filtro de ruido') || features.includes('Alarma Sonora') || features.includes('Seguimiento de onda senoidal') || features.includes('Seccionador / Desconectador')
+    )
+) {
+    recomendacion += "Modelo MDS600 ";
+    descripcion = `
+        	
+-Tipo 1-2.
+-Alarma sonora.
+-Botón de testeo
+-Full diagnóstico
+-Filtro de ruido.
+-Fusibles internos
+-Imax Total: 600Ka
+-UL1449 5ed edición
+-Seguimiento de onda
+-Imax por fase: 300Ka
+-Silenciador de alarma sonora
+-Luces indicadoras LED por fase
+-Módulos intercambiables por fase
+-Indicador de degradación (indica fase de vida del supresor)
+     
+    `;   
+    
+    imagenSrc = "https://citel.us/serverFile/getMainPicture/2632100";
+}
+
+
+else if (
+    (equipo === 'Comercial' || equipo === 'industrial') &&
+    (configuracion === 'MONOFÁSICO' || configuracion === 'TRIFÁSICO' || configuracion === 'DELTA' || configuracion === 'ESTRELLA') &&
+    amperage === '3000-4000' &&
+    (zona === 'Interior' || zona === 'Exteriores') &&
+    (tipo === 'tipo2' || tipo === 'tipo1') &&
+    encapsulado === 'encapsulado' &&
+    (
+        voltaje === '120V(Monofasico)' || voltaje === '120/240V(Monofasico)' || voltaje === '230V(Monofasico)' || voltaje === '120/208V(Trifasico Estrella)' || voltaje === '277/480V(Trifasico Estrella)' || voltaje === '347/480V(Trifasico Estrella)' || voltaje === '240/415V(Trifasico Estrella)' || voltaje === '240V (Trifasico Delta)' || voltaje === '480V (Trifasico Delta)' || voltaje === '600V (Trifasico Delta)' || voltaje === '120/120/240V (Trifasico fase elevada)'
+    ) ||
+    (
+        features.includes('Indicador de degradación') || features.includes('Contacto Seco') || features.includes('Contador de Eventos') || features.includes('Filtro de ruido') || features.includes('Alarma Sonora') || features.includes('Seguimiento de onda senoidal') || features.includes('Seccionador / Desconectador')
+    )
+) {
+    recomendacion += "Modelo MS100";
+    descripcion = `
+        	
+-Imax: 132kA
+-IP 66 Nema 4X
+-Alarma sonora
+-Contacto seco
+-Carcasa robusta en metal
+-Monofásicos y trifásicos
+-UL1449 5ed edición
+-Indicador de degradación
+-Indicador de fallo por fase
+-Opcional: contador de eventos
+-Opcional: filtro de ruido (UL1283)
+-Corriente nominal de descarga (In):20kA
+-Corriente de corto circuito (SCCR):200kA
+-Tipo 1 y 2 (capaz de soportar lasobretensión generada por un rayo)
+     
+    `;      imagenSrc = "https://citel.us/serverFile/getMainPicture/2632100";
+}
+
+
+else if (
+    (equipo === 'Comercial' || equipo === 'industrial' || equipo === 'residencial') &&
+    (configuracion === 'MONOFÁSICO' || configuracion === 'TRIFÁSICO' || configuracion === 'DELTA' || configuracion === 'ESTRELLA') &&
+    amperage === '20-125' &&
+    (zona === 'Interior' ) &&
+    (tipo === 'tipo2' || tipo === 'tipo1') &&
+    encapsulado === 'din-rail' &&
+    (
+        voltaje === '120V(Monofasico)' || voltaje === '120/240V(Monofasico)' || voltaje === '230V(Monofasico)' || voltaje === '120/208V(Trifasico Estrella)' || voltaje === '277/480V(Trifasico Estrella)' || voltaje === '347/480V(Trifasico Estrella)' || voltaje === '240/415V(Trifasico Estrella)' || voltaje === '240V (Trifasico Delta)' || voltaje === '480V (Trifasico Delta)' || voltaje === '600V (Trifasico Delta)' || voltaje === '120/120/240V (Trifasico fase elevada)'
+    ) ||
+    features.includes('Contacto Seco')
+) {
+    recomendacion += "Modelo DS40 ";
+    descripcion = `
+        
+    -Imax: 40Ka 
+    -NEMA 2 (IP20)
+    -Voltaje 120-208
+    -Contacto remoto
+    -Indicador visual
+    -Imax Total: 120Ka
+    -Cartucho reemplazable
+    -Desconexión vía fusible
+    -UL1449 5ed edición Tipo 4CA
+    -Corriente nominal (In): 20Ka
+    -Material Termoplásticos UL94-V0
+    -Modos de Protección común: L-L, L-N, L-G, N-G
+                 
+                `;     imagenSrc = "https://citel.fr/serverFile/getMainPicture/1375142";
+}
+
+
+            else {
+                recomendacion += "No se encontró una recomendación adecuada.";
+                imagenSrc = "https://martinbrainon.com/inicio/wp-content/uploads/2017/04/false-2061132_1280.png";
+            }
+
+            // Mostrar la recomendación y la descripción
+            document.getElementById('recomendacion').innerText = recomendacion;
+            document.getElementById('descripcion').innerText = descripcion;
+            document.getElementById('supresor-img').src = imagenSrc;
+            document.getElementById('supresor-img').style.display = "block";
+        }
+    </script>
+</body>
+</html>
